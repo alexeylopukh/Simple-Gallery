@@ -1,17 +1,15 @@
-package simple.gallery
+package simple.gallery.adapter
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
-import android.widget.ImageView
 import android.widget.TextView
-import org.w3c.dom.Text
-import java.net.URL
+import simple.gallery.R
+import simple.gallery.model.AlbumModel
 
-class AlbumsGridAdapter(private val list: List<GridItem>): BaseAdapter(){
+class AlbumsGridAdapter(private val list: List<AlbumModel>): BaseAdapter(){
     @SuppressLint("ViewHolder")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val view = LayoutInflater.from(parent?.context).inflate(R.layout.grid_item, parent, false)
