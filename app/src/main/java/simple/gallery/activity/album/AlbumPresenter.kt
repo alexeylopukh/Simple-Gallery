@@ -2,7 +2,7 @@ package simple.gallery.activity.album
 
 import simple.gallery.model.AlbumModel
 
-class AlbumPresenter(private val view: AlbumViewImpl) : AlbumPresenterImpl {
+class AlbumPresenter(private val view: AlbumContract.View) : AlbumContract.Presenter {
 
     override fun loadAlbums() {
         val result: ArrayList<AlbumModel> = ArrayList()
@@ -14,5 +14,9 @@ class AlbumPresenter(private val view: AlbumViewImpl) : AlbumPresenterImpl {
         }
 
         view.setAlbums(result)
+    }
+
+    override fun checkPermissions() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
