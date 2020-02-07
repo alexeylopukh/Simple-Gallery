@@ -1,6 +1,7 @@
 package simple.gallery.activity.album
 
-import android.app.Activity
+import android.content.pm.PackageManager
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.GridView
@@ -15,7 +16,7 @@ class AlbumView : AppCompatActivity(), AlbumContract.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        gridLayout=findViewById(R.id.gridLayoutAlbums)
+        gridLayout = findViewById(R.id.gridLayoutAlbums)
         if (!::presenter.isInitialized)
             presenter = AlbumPresenter(this)
         presenter.loadAlbums()
@@ -23,10 +24,26 @@ class AlbumView : AppCompatActivity(), AlbumContract.View {
 
     override fun setAlbums(albums: List<AlbumModel>) {
         val adapter = AlbumsGridAdapter(albums)
-        gridLayout.adapter=adapter
+        gridLayout.adapter = adapter
     }
 
-    override fun activity(): Activity {
-        return this
+    override fun requestPermissions(permissions: Array<String>) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            this.requestPermissions(permissions, 1)
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        var granted: Boolean = true
+        grantResults.forEach {
+            if (it != PackageManager.PERMISSION_GRANTED)
+                granted = false
+        }
+        presenter.onPermissionsGranted(granted)
     }
 }
